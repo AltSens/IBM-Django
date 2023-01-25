@@ -53,12 +53,24 @@
             <!--HINT Display exam results-->
             <div class="container-fluid">
                 <div class="card-columns-vertical">
-                    {% for question in course.lesson_set.all.question_set.all %}
+                    {% for choice in selected_ids.all %}
                     <div class="card mt-1">
-                        <div class="card-header"><h5>{{question.question_text}}</h5></div>
-                        {% for choice in question.choice_set.all %}
-                        <div class="card-body">{{choice.choice_text}}</div>
-                        {% endfor %}
+                        <div class="card-header"><h5>{{choice.question.question_text}}</h5></div>
+                            {% for choice in choice.question.choice_set.all %}
+                                {% if choice.is_correct %}
+                                    {% if choice in selected_ids.all %}
+                                        <div class="text-success"><p>Correct Answer: {{choice.choice_text}}</p></div>
+                                    {% else %}
+                                        <div class="text-warning"><p>Not Selected: {{choice.choice_text}}</p></div>
+                                    {% endif %}
+                                {% else %}
+                                <div><p>{{choice.choice_text}}</p></div>
+                                {% endif %}
+                            {% endfor %}
+                        <div class="card-body">
+                            
+                        </div>
+                        
                     <div>
                     {% endfor %}
                 </div>
